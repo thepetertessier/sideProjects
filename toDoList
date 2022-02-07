@@ -1,9 +1,9 @@
 // This to-do list maker sets out to create the following:
-// A compilation of To Do items with properties of title, description, date created, date due, and its status (New, Working on, Finished).
-// A way to add and delete items
-// A way to reorganize the list (i.e. bring one to top, send down 1, etc)
-// A way to edit information about each task
-// A way to view deleted items
+    // A compilation of To Do items with properties of title, description, date created, date due, and its status (New, Working on, Finished).
+    // A way to add and delete items
+    // A way to reorganize the list (i.e. bring one to top, send down 1, etc)
+    // A way to edit information about each task
+    // A way to view deleted items
  
 // The way to use the code below is specified after the script and before the examples.
 // Whenever the variable 'ind' is used, it refers to the index of an item on the 'items' array starting at 1, not 0. This is for the convenience of the user, so that when referring to an item, they can simply look at the number it is listed under in the display.
