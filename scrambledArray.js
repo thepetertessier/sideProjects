@@ -31,7 +31,7 @@ const testScramble = testArray => {
         }
     }
     let testScrambled = testArray.slice();
-    for (let i = 0; i < 55555; i++) {
+    for (let i = 0; i < 1000; i++) {
         scramble(testScrambled);
         for (let j = 0; j < testScrambled.length; j++) {
             for (let k = 0; k < testScrambled.length; k++) {
@@ -49,3 +49,4 @@ const testScramble = testArray => {
 }
 
 console.log(testScramble(oneToTen));
+// If the 'scramble' function truly randomizes an array, this should log an array with numbers close in proximity
