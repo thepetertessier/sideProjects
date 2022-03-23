@@ -61,7 +61,7 @@ const stdevOfScramble = (testArray, testNum) => {
         mean = mean + resultsAll[i];
     }
     mean = mean/resultsAll.length;
-    let stDev = [];
+    let stDev = 0;
     for (let i = 0; i < resultsAll.length; i++) {
         let varianceI = resultsAll[i] - mean;
         varianceI = varianceI^2;
