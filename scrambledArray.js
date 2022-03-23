@@ -18,9 +18,8 @@ const scramble = array => {
 console.log('Scrambled array: ' + scramble(exampleArray));
 // The console should show all elements from the original array randomly ordered.
 
-// The algorithm below runs 'scramble' 10000 times and sees how many times each input appears in each index
-const oneToTen = [1,2,3,4,5,6,7,8,9,10];
-const testScramble = testArray => {
+// The algorithm below runs 'scramble' testNum times and sees how many times each input appears in each index
+const testScramble = (testArray,testNum) => {
     // The array 'results' will contain an array where the nth element of testArray is represented in the nth position of results, then results[n][i] will contain the number of times testArray[n] appears in the ith position
     let results = [];
     // This 'for' line creates empty arrays for results
@@ -31,7 +30,7 @@ const testScramble = testArray => {
         }
     }
     let testScrambled = testArray.slice();
-    for (let i = 0; i < 1000; i++) {
+    for (let i = 0; i < testNum; i++) {
         scramble(testScrambled);
         for (let j = 0; j < testScrambled.length; j++) {
             for (let k = 0; k < testScrambled.length; k++) {
@@ -48,5 +47,34 @@ const testScramble = testArray => {
     return results;
 }
 
-console.log(testScramble(oneToTen));
+const stdevOfScramble = (testArray, testNum) => {
+    let results = testScramble(testArray,testNum);
+    // combines results into one array
+    let resultsAll = [];
+    for (let i = 0; i < results.length; i++) {
+        for (let j = 0; j < results[i].length; j++) {
+            resultsAll.push(results[i][j]);
+        }
+    }
+    let mean = 0;
+    for (let i = 0; i < resultsAll.length; i++) {
+        mean = mean + resultsAll[i];
+    }
+    mean = mean/resultsAll.length;
+    let stDev = [];
+    for (let i = 0; i < resultsAll.length; i++) {
+        let varianceI = resultsAll[i] - mean;
+        varianceI = varianceI^2;
+        stDev = stDev + varianceI;
+    }
+    stDev = stDev/resultsAll.length;
+    stDev = stDev^0.5
+    return stDev;
+}
+
+const oneToTen = [1,2,3,4,5,6,7,8,9,10];
+console.log(testScramble(oneToTen,10000));
 // If the 'scramble' function truly randomizes an array, this should log an array with numbers close in proximity
+
+console.log(stdevOfScramble(oneToTen,10000));
+// this gives the standard deviation of the above array, which should be small
