@@ -1,3 +1,18 @@
+# The following code was used to crack the impossible chessboard problem, explained here:
+# https://www.youtube.com/watch?v=wTJI_WuZSwE
+
+# The get_position() function maps an arrangement of coins (64 heads and tails)
+# to a single position on the chessboard (int from 0 to 63), and this function
+# must have the property that for any arrangement of coins, one can always flip
+# one coin such that get_position(new arrangment) equals any number from 0 to 63.
+
+# After I found such a get_position() function using recursion, I wrote more code
+# and tests to solve the problem: Which coin would you have to flip in order for
+# get_position(new arrangement) to equal the position you desire? I finally discovered
+# that you must flip get_position("arrangment if coin in desired position were flipped").
+
+# Scroll down to line 232 to see a sample situation, and run the program to see it play out.
+
 import numpy as np
 import random
 
@@ -138,7 +153,7 @@ def get_adjacents(bin_lst):
 
 def flip(arr, c):
     """
-    Returns position p2 after previously get_position(arr1) = p1 and flipping coin in position c
+    Returns position p2 after previously get_position(arr) = p1 and flipping coin in position c
     """
     arr = listify(arr)
     arr[-c-1] = (arr[-c-1] + 1) % 2
@@ -187,6 +202,11 @@ def gen_solution_matrix(coins):
         seed[-i-1] = 1
         print(get_adjacents(seed))
 
+def flip_coin(arrangement, coin):
+    arr_copy = arrangement[::-1]
+    arr_copy[-coin-1] = 0 if arr_copy[-coin-1] else 1
+    return arr_copy
+
 
 # Testing
 
@@ -208,4 +228,33 @@ def gen_solution_matrix(coins):
 
 # test_rand_flip(100,64)
 
-print(get_position([0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0], verbose=True))
+
+# Sample situation:
+# Suppose our chessboard has the following arrangement
+arrangement = [0, 0, 0, 0, 1, 1, 0, 0,
+               0, 1, 0, 0, 0, 1, 0, 0,
+               1, 1, 0, 1, 0, 1, 0, 0,
+               0, 0, 1, 0, 0, 0, 1, 1,
+               0, 1, 0, 1, 0, 1, 1, 1,
+               0, 1, 1, 0, 1, 1, 0, 1,
+               0, 0, 0, 1, 0, 0, 1, 0,
+               0, 0, 1, 0, 0, 0, 0, 0]
+print("Arrangement: %s" % arrangement)
+
+# And the key is in tile #23
+key_index = 23
+print("Key index: %d" % key_index)
+
+# To know which coin to flip in order for get_position(new arrangement) = 23,
+# we must call get_position() on the arrangement where coin #23 is flipped
+arrangement_with_23_flipped = flip_coin(arrangement, coin=key_index)
+coin_we_should_flip = get_position(arrangement_with_23_flipped)
+
+# Now we flip that coin
+print("Now flipping coin #%d..." % coin_we_should_flip)
+new_arrangement = flip_coin(arrangement, coin=coin_we_should_flip)
+
+# Person 2 comes in and checks under the result of get_position(new_arrangement),
+# which should be where the key is
+key_index_2 = get_position(new_arrangement)
+print("Person 2 checks under tile #%d, which should be the key index!" % key_index_2)
